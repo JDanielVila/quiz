@@ -1,4 +1,15 @@
 <table>
+    <tr>
+        <td>
+          <form method="get" action="/quizes">
+	    Preguntas que contengan &nbsp;
+	    <input type="text" name="search" value="" placeholder="busqueda"/>
+            <button type="submit">
+            	Buscar
+            </button>
+          </form>
+        </td>
+    </tr>
   <% var i; for (i=0; i < quizes.length; i++) { %>        
     <tr>
 	<td>
