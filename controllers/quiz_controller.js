@@ -19,14 +19,14 @@ exports.index = function(req, res) {
 	models.Quiz.findAll({
 			where:[ "lower(pregunta) like ? ", filtro ], order:'pregunta ASC'
 		}).then( function(quizes) {
-                       	res.render('quizes/index.ejs', {quizes: quizes});
+                       	res.render('quizes/index.ejs', {quizes: quizes, errors: []});
        		}).catch(function(error){next(error)}
 	);
 };
 
 // GET /quizes/:id
 exports.show = function(req, res) {
-  	res.render('quizes/show', { quiz: req.quiz });
+  	res.render('quizes/show', { quiz: req.quiz, errors: []});
 };
 
 // GET /quizes/:id/answer
@@ -35,10 +35,35 @@ exports.answer = function(req, res) {
 	if (req.query.respuesta === req.quiz.respuesta) {
 		resultado = 'Correcto';
 	}
-  	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
+  	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado, errors: []});
+};
+
+// GET /quizes/new
+exports.new = function(req, res) {
+	var quiz = models.Quiz.build(	// Crea objeto quiz no persistente
+		{pregunta: "Pregunta", respuesta: "Respuesta"}
+	);	
+        res.render('quizes/new', {quiz: quiz, errors: []});
+};
+
+// GET /quizes/create
+exports.create = function(req, res) {
+	var quiz = models.Quiz.build(	// Inicializa objeto quiz no persistente
+		req.body.quiz
+	);
+	quiz.validate().then( function(err) {
+		if (err) {
+			res.render('quizes/new', {quiz: quiz, errors: err.errors});
+		} else {
+			// Guarda en la BD los campos pregunta y respuesta del objeto quiz
+			quiz.save({ fields: ["pregunta", "respuesta"] }).then(function() {
+				res.redirect('/quizes');
+			})	// Redirección HTTP (URL relativo) a lista de preguntas
+		}
+	});
 };
 
 // GET /author
 exports.author = function(req, res) {
-	res.render('author', {autor: 'J. Daniel Vila'});
+	res.render('author', {autor: 'J. Daniel Vila', errors: []});
 };
