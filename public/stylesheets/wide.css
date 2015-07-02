@@ -5,15 +5,17 @@ body { background: #999; }
 nav {
   float: left;
   width: 15%;
-  height: 200px;
+  height: 400px;
 }
 nav span {
-  margin: 0px 100px 0px 0px;
+  display: inline-block;
+  width: 80%;
+  padding: .25em;
 }
 section {
   float: right;
   width: 80%;
-  height: 200px;
+  height: 400px;
 }
 footer {
   clear: both;
