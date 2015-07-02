@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var partials = require('express-partials');
 
 var methodOverride = require('method-override');
+var session = require('express-session'); // Para autenticación y sesión
 
 var routes = require('./routes/index');
 
@@ -28,11 +29,24 @@ app.use(bodyParser.json());
 // Para  analizar la anotación pseudo JSON de los parámetros del formulario y generar el objeto req.body.quiz:
 app.use(bodyParser.urlencoded());
 
-app.use(cookieParser());
+app.use(cookieParser('Quiz 2015')); // Añadimos semilla "Quiz 2015" para cifrado de la cookie
+app.use(session());
 
 app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Para autenticación y sesión
+// Helpers dinámicos
+app.use(function(req, res, next) {
+	// Guardar path en session.redir para después de login
+	if(!req.path.match(/\/login|\/logout/)) {
+		req.session.redir = req.path;
+	}
+	// Hacer visible req.session en las vistas
+	res.locals.session = req.session;
+	next();
+});
 
 app.use('/', routes);
 

@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
 
 * { 
 	margin: 0; 
@@ -59,3 +59,5 @@ button {
 	padding-top: 2px;
 	padding-bottom: 4px;
 }
+
+.right {float: right;}
