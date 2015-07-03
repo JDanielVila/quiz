@@ -16,6 +16,7 @@ exports.load = function(req, res, next, quizId) {
 
 // GET /quizes
 exports.index = function(req, res) {  
+	console.log("En GET /quizes: exports.index");
 	var filtro = '%';
 	if (typeof req.query.search !== 'undefined') {
 		filtro = '%'+req.query.search.toLowerCase().replace(/ +/g,'%')+'%';

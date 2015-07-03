@@ -12,7 +12,7 @@ exports.new = function(req, res) {
 	var errors = req.session.errors || {};
 	req.session.errors = {};
 
-        res.render('sessions/new', { errors: errors });
+	res.render('sessions/new', { errors: errors });
 };
 
 // POST /login   -- Crear la sesión
@@ -38,9 +38,8 @@ exports.create = function(req, res) {
 	});
 };
 
-// DELETE /logout   -- Destruir sesión		
+// DELETE /logout   -- Destruir sesión
 exports.destroy = function(req, res) {
 	delete req.session.user;
 	res.redirect(req.session.redir.toString()); // redirect a path anterior a login
 };
-

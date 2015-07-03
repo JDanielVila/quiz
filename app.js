@@ -36,9 +36,23 @@ app.use(methodOverride('_method'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Auto-logout
+app.use(function(req, res, next) {
+	if(req.session.user) { // Si aún estamos en una sesion y activos
+		if (req.session.lastActive) {
+			if( (new Date()).getTime() - req.session.lastActive > 120000 ) {
+				delete req.session.user;
+			}
+		} 
+		req.session.lastActive = (new Date()).getTime();	
+	}
+	next();
+});
+
 // Para autenticación y sesión
 // Helpers dinámicos
 app.use(function(req, res, next) {
+	console.log("app.js: En el Helper")
 	// Guardar path en session.redir para después de login
 	if(!req.path.match(/\/login|\/logout/)) {
 		req.session.redir = req.path;
