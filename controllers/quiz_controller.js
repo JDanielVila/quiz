@@ -15,8 +15,7 @@ exports.load = function(req, res, next, quizId) {
 };
 
 // GET /quizes
-exports.index = function(req, res) {  
-	console.log("En GET /quizes: exports.index");
+exports.index = function(req, res) {
 	var filtro = '%';
 	if (typeof req.query.search !== 'undefined') {
 		filtro = '%'+req.query.search.toLowerCase().replace(/ +/g,'%')+'%';
@@ -25,7 +24,7 @@ exports.index = function(req, res) {
 			where: Sequelize.or(
 				[ "lower(pregunta) like ? ", filtro ],
 				{ tema: filtro.replace(/%/g,'') }
-			), 
+			),
 			order: 'pregunta ASC'
 		}).then( function(quizes) {
                        	res.render('quizes/index.ejs', {quizes: quizes, errors: []});
@@ -51,7 +50,7 @@ exports.answer = function(req, res) {
 exports.new = function(req, res) {
 	var quiz = models.Quiz.build(	// Crea objeto quiz no persistente
 		{pregunta: "Pregunta", respuesta: "Respuesta", tema: "otro"}
-	);	
+	);
         res.render('quizes/new', {quiz: quiz, errors: []});
 };
 

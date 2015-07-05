@@ -1,0 +1,10 @@
+<p><strong>Estadísticas:</strong></p>
+<table>
+<% var i; for (i=0; i < statistics.length; i++) { %>
+	<tr>
+		<td> <%=statistics[i].texto %> </td>
+		<td> ... </td>
+		<td> <%=statistics[i].count %> </td>
+	</tr>
+<% } %>
+</table>
